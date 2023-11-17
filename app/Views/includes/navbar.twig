@@ -1,0 +1,13 @@
+<nav class="bg-gradient-to-r from-blue-700 via-blue-800 to-gray-900 p-4">
+    <div class="container mx-auto flex justify-between items-center">
+        <div class="text-white font-bold text-lg"><a href="http://localhost:8000">Crypto INFO</a></div>
+        <form action="/search" method="GET" class="flex justify-center items-center flex-grow mx-4">
+            <div class="flex overflow-hidden bg-gray-800 border border-gray-700">
+                <label>
+                    <input type="text" name="cryptoPair" placeholder="Example : BTCETH" class="px-4 py-2 bg-transparent text-white focus:outline-none w-48 sm:w-56 md:w-64 lg:w-72 xl:w-80">
+                </label>
+                <button type="submit" class="px-4 py-2 bg-blue-500 text-white hover:bg-blue-600 transition duration-300 focus:outline-none">Search</button>
+            </div>
+        </form>
+    </div>
+</nav>

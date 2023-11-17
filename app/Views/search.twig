@@ -1,0 +1,104 @@
+{% include 'includes/header.twig' %}
+{% include 'includes/navbar.twig' %}
+<h1 class="text-4xl font-bold mb-8 mt-10 text-center">Crypto INFO - Search Results</h1>
+
+<div class="container mx-auto my-8 flex justify-center items-center">
+
+    {% if currency %}
+        <div class="bg-white rounded-lg shadow-md border border-gray-200 transition duration-300 ease-in-out transform hover:scale-105 w-1/2">
+            <div class="bg-gray-200 text-center py-4">
+                <h2 class="text-2xl font-semibold">{{ currency.getName() }}</h2>
+                <p class="text-lg text-gray-600">{{ currency.getSymbol() }}</p>
+            </div>
+            <div class="p-4">
+                <table class="w-full">
+                    <tbody>
+                    <tr class="border-b border-gray-200">
+                        <td class="py-2 px-4 text-left font-semibold">Price Change</td>
+                        <td class="py-2 px-4 text-right font-semibold
+                                {% set change = currency.getPriceChange() %}
+                                {% if change < 0 %}
+                                    text-red-500
+                                {% elseif change > 0 %}
+                                       text-green-500
+                                {% endif %}
+                            ">
+                            {{ currency.getPriceChange() }}
+                        </td>
+                    </tr>
+                    <tr class="border-b border-gray-200">
+                        <td class="py-2 px-4 text-left font-semibold">Volume</td>
+                        <td class="py-2 px-4 text-right font-semibold">{{ currency.getVolume() }}</td>
+                    </tr>
+                    <tr class="border-b border-gray-200">
+                        <td class="py-2 px-4 text-left font-semibold">Price Change Percent</td>
+                        <td class="py-2 px-4 text-right font-semibold
+                                    {% set priceChangePercent = currency.getPriceChangePercent()|replace({'%': ''})|trim %}
+                                    {% if priceChangePercent|slice(0, 1) == '-' %}
+                                        text-red-500
+                                    {% elseif priceChangePercent > 0 %}
+                                        text-green-500
+                                    {% endif %}
+                                ">
+                            {{ currency.getPriceChangePercent() }}
+                        </td>
+                    </tr>
+                    <tr class="border-b border-gray-200">
+                        <td class="py-2 px-4 text-left font-semibold">Weighted Avg Price</td>
+                        <td class="py-2 px-4 text-right font-semibold">{{ currency.getWeightedAvgPrice() }}</td>
+                    </tr>
+                    <tr class="border-b border-gray-200">
+                        <td class="py-2 px-4 text-left font-semibold">Prev Close Price</td>
+                        <td class="py-2 px-4 text-right font-semibold">{{ currency.getPrevClosePrice() }}</td>
+                    </tr>
+                    <tr class="border-b border-gray-200">
+                        <td class="py-2 px-4 text-left font-semibold">Last Price</td>
+                        <td class="py-2 px-4 text-right font-semibold">{{ currency.getLastPrice() }}</td>
+                    </tr>
+                    <tr class="border-b border-gray-200">
+                        <td class="py-2 px-4 text-left font-semibold">Ask Price</td>
+                        <td class="py-2 px-4 text-right font-semibold">{{ currency.getAskPrice() }}</td>
+                    </tr>
+                    <tr class="border-b border-gray-200">
+                        <td class="py-2 px-4 text-left font-semibold">Open Time</td>
+                        <td class="py-2 px-4 text-right font-semibold">{{ currency.getOpenTime() }}</td>
+                    </tr>
+                    <tr class="border-b border-gray-200">
+                        <td class="py-2 px-4 text-left font-semibold">Close Time</td>
+                        <td class="py-2 px-4 text-right font-semibold">{{ currency.getCloseTime() }}</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    {% else %}
+        <div id="searchModal" class="fixed inset-0 flex justify-center items-center z-50 bg-black bg-opacity-50">
+            <div class="bg-white border-t-4 border-red-500 rounded-b text-teal-900 px-4 py-3 shadow-md" role="alert">
+                <div class="flex">
+                    <div>
+                        <p class="font-bold flex justify-center items-center">No results found. Please try searching for a different cryptocurrency pair.
+                        </p>
+
+                        <form action="/search" method="GET" class="flex justify-center items-center flex-grow mx-4 mt-5">
+                            <div class="flex overflow-hidden bg-gray-800 border border-gray-700">
+                                <label>
+                                    <input type="text" name="cryptoPair" placeholder="Example : BTCETH" class="px-4 py-2 bg-transparent text-white focus:outline-none w-48 sm:w-56 md:w-64 lg:w-72 xl:w-80">
+                                </label>
+                                <button type="submit" class="px-4 py-2 bg-blue-500 text-white hover:bg-blue-600 transition duration-300 focus:outline-none">Search</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endif %}
+</div>
+
+<script>
+    {% if not currency %}
+        document.getElementById('searchModal').classList.remove('hidden');
+    {% endif %}
+</script>
+
+</body>
+</html>
